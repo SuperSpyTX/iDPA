@@ -1,4 +1,4 @@
-﻿Build started 6/25/2013 9:29:31 AM.
+﻿Build started 6/25/2013 5:15:29 PM.
      1>Project "C:\Users\Student\Desktop\Krause\C++\Advanced_Calculator\Advanced_Calculator\Advanced_Calculator.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Advanced_Calculator.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -23,4 +23,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.58
+Time Elapsed 00:00:00.64
