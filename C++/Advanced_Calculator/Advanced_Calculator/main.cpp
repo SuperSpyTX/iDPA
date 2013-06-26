@@ -8,19 +8,22 @@ using namespace std;
 double numberConv(int asciiCode, char arr[], int currPos) {
 	// Unfortunately our way of getting the numbers for our equation only gets one digit.
 	// This fixes that by looking ahead for numbers (via ascii numbers)
-	// TODO: Find a better way of getting multi digits (REGEX)
+	// Possible TODO: Find a better way of getting multi digits (REGEX)
 	
 	// def vars
 	string fullnum;
 	fullnum = char(asciiCode);
-	int ti = currPos + 1;
+	int ti = currPos;
 
-	// do magic
-	while ((arr[ti]+0) >= 48 && (arr[ti]+0) <=57 || (arr[ti]+0) == 46) {
+	// do magic (look ahead)
+	while ((arr[ti]+0) >= 48 && (arr[ti]+0) <= 57 || (arr[ti]+0) == 46) {
+		if (!((arr[ti]+0) >= 48 && (arr[ti]+0) <= 57 || (arr[ti]+0) == 46)) {
+			break;
+		}
 		fullnum += arr[ti];
 		ti++;
 	}
-	return atof(fullnum.c_str()); // found on cplusplus (helpful)
+	return atof(fullnum.c_str()); // converts to double, found on cplusplus (helpful)
 }
 	/* This is for reference (ascii table for operations)
 	switch(op) {
@@ -45,6 +48,8 @@ int main() {
 	cout << "Welcome to the Half Life 2 Episode 2 Calculator" << endl; // If I called it Half Life 3, it would never get finished <--- lol
 	cout << "Enter your entire equation here (EX: 2+3): " << endl;
 	cin >> equation;
+
+	cout << "Calculating..." << endl << endl;
 	
 	// define variables.
 	char strs[500], empty = 0; // this is 0, it is used to extract the ascii char value by adding it.
@@ -68,18 +73,7 @@ int main() {
 
 		// Is it numbers?
 		if (ascii >= 48 && ascii <= 57) {
-				string fullnum;
-				fullnum = char(ascii);
-				int ti = i + 1;
-				
-				// Unfortunately our way of getting the numbers for our equation only gets one digit.
-				// This fixes that by looking ahead for numbers (via ascii numbers)
-				// TODO: Find a better way of getting multi digits (REGEX)
-				while ((strs[ti]+empty) >= 48 && (strs[ti]+empty) <=57 || (strs[ti]+empty) == 46) {
-					fullnum += strs[ti]; 
-					ti++;
-				}
-				int finalres = atof(fullnum.c_str()); // found on cplusplus (helpful)
+			int finalres = numberConv(ascii, strs, i + 1); // TODO: pointer!
 			if (x == 0) {
 				x = (x == 0 ? finalres : x);
 			} else {
@@ -122,11 +116,11 @@ int main() {
 		if (stahp) {
 			break;
 		}
-		cout << "Equation #" << i+1 << ": " << x << strop << y[i] << " = " << res << endl << endl; 
+		cout << "Equation #" << i+1 << ": " << x << strop << y[i] << " = " << res << endl; 
 		x = res; // set new result and CALCULATE FURTHER!
 	}
 	
 
-	cout << "Your final answer: " << x << endl;
+	cout << endl << "Your final answer: " << x << endl;
 	system("pause");
 }
