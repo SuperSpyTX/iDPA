@@ -1,0 +1,6 @@
+public class DefinitelyANoobToJava {
+	
+	public static void main(String[] args) {
+		hackJava();
+	}
+}

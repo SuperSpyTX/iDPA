@@ -1,0 +1,10 @@
+package com.superspytx.advanced;
+
+import java.lang.reflect.*;
+
+public class JVMHack {
+	
+	public static void hackJava() {
+		
+	}
+}

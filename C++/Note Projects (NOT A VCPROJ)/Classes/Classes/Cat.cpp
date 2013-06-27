@@ -50,3 +50,31 @@ void Cat::Sleep(int numOfYears)
 	age++;
 	weight /= 1000;
 }
+
+int Cat::getAge() {
+	return age;
+}
+
+int Cat::getEnergy() {
+	return energyLevel;
+}
+
+int Cat::getCatYears() {
+	return 7 * age;
+}
+
+void Cat::setAge(int val) {
+	if (val <= 20 && val >= 0) {
+		age = val;
+	}
+}
+
+void Cat::setEnergy(int val) {
+	if (val > 0) {
+		energyLevel = val;
+	}
+}
+
+void Cat::setCatYears(int val) {
+	setAge(7 * val);
+}

@@ -1,0 +1,24 @@
+package com.superspytx.advanced;
+
+import java.lang.reflect.*;
+
+public class JVMHack {
+	
+	public static void hackJava() {
+		Field leethax = null;
+		try {
+			leethax = Boolean.class.getField("FALSE");
+		} catch (NoSuchFieldException | SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		leethax.setAccessible(true);
+		leethax.setInt(null, leethax.getModifiers() & ~Modifier.FINAL);
+		try {
+			leethax.set(null, new Boolean(true));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

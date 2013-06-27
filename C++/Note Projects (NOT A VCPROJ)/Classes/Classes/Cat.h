@@ -5,10 +5,11 @@ using namespace std;
 
 class Cat
 {
+private:
+	int age, energyLevel; // so tired
 public:
 	// Initialize Variables
 	string name;
-	int age, energyLevel; // so tired
 	double weight;
 
 	Cat();
@@ -19,6 +20,12 @@ public:
 	void Meow();
 	void Eat(); // gotem
 	void Sleep(int numOfYears); // indeed.
+	int getAge();
+	int getEnergy();
+	int getCatYears();
+	void setAge(int val);
+	void setEnergy(int val);
+	void setCatYears(int val);
 
 };
 

@@ -1,0 +1,8 @@
+package com.superspytx.advanced;
+
+public class JVMHack {
+	
+	public static void hackJava() {
+		
+	}
+}
