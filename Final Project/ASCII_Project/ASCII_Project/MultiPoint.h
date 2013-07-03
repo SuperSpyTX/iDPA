@@ -11,13 +11,14 @@ public:
 	// Constructors
 	MultiPoint();
 	MultiPoint(int* x, int* y, char character, int size, bool nstack);
+	MultiPoint(int x, int y, char character, int size, bool nstack);
+	MultiPoint(int row, char character, int size, bool nstack);
 	~MultiPoint();
 	
 	// Variables
 	int *x, *y, size;
 	char character;
 	bool stack;
-
-	// Functions
+	int row;
 };
 

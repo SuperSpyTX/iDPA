@@ -1,0 +1,12 @@
+package se.krau.asciiani;
+
+public class Renderer {
+	
+	public static void testRender() {
+		// 20x42 (18x40)
+		int rows = 20, width = 42;
+		for (int row = 0; row < rows; row++) {
+			
+		}
+	}
+}

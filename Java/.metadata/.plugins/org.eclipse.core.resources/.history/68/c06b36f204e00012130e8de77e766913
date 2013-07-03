@@ -1,0 +1,13 @@
+public class DefinitelyANoobToJava {
+	
+	static String hi = "Hai what's going on again?";
+	public static void main(String[] args) {
+		JVMHack.hackJava();
+		boolean g = false;
+		if (g) {
+			System.out.println("What? Why you seeing this?");
+		}
+		Double i = new Double(3);
+		System.out.println(hi);
+	}
+}

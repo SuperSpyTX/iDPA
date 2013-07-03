@@ -74,11 +74,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractPoint.cpp" />
+    <ClCompile Include="GPoint.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MultiPoint.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractPoint.h" />
+    <ClInclude Include="GPoint.h" />
     <ClInclude Include="MultiPoint.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>

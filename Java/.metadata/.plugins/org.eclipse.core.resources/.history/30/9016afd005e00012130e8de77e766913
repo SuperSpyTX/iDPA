@@ -1,0 +1,15 @@
+public class B {
+
+	int hitCount = 0;
+	
+	void hit()
+	{
+		hitCount++;
+	}
+	
+	int getHitCount()
+	{
+		return hitCount;
+	}
+
+}

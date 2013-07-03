@@ -1,0 +1,8 @@
+package se.krau.asciiani;
+
+public class Renderer {
+	
+	public static void testRender() {
+		
+	}
+}

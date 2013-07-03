@@ -1,0 +1,22 @@
+package se.krau.asciiani;
+
+import java.io.IOException;
+
+public class AsciiAnimation {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		for (;;) {
+			Renderer.testRender();
+			try {
+				Runtime.getRuntime().exec("cls");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

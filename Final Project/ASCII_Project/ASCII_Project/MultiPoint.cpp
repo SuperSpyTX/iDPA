@@ -26,7 +26,28 @@ MultiPoint::MultiPoint(int* nx, int* ny, char ncharacter, int nsize, bool nstack
 	stack = nstack;
 }
 
+MultiPoint::MultiPoint(int nx, int ny, char ncharacter, int nsize, bool nstack) 
+{
+	size = nsize;
+	x = new int[1];
+	x[0] = nx;
+	y = new int[1];
+	y[0] = ny;
+	character = ncharacter;
+	stack = nstack;
+}
 
+MultiPoint::MultiPoint(int nrow, char ncharacter, int nsize, bool nstack) 
+{
+	size = nsize;
+	x = new int[1];
+	x[0] = nrow;
+	y = new int[1];
+	y[0] = -1;
+	row = nrow;
+	character = ncharacter;
+	stack = nstack;
+}
 
 MultiPoint::~MultiPoint()
 {
