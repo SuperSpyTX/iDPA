@@ -16,6 +16,7 @@ bool lock = false;
 
 if (borderRow || column == 0 || column == (columns - 1)) {
 dot = (showBorders ? 42 : ' '); 
+lock = true;
 } else if (!lock) {
 dot = (showDots ? '.' : ' ');
 }
@@ -338,10 +339,11 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 void Renderer::renderScroll(AbstractPoint ap)
 {
 	std::vector<AbstractPoint> aps(1, ap);
-	int charleft = 0;
+	int charleft = 0, charsToSkip = 0;
 	AbstractPoint sel;
 	bool skipNow = false;
 	bool killWhile = false;
+	int bugSquash = 0;
 	while(true)
 	{
 		if (killWhile)
@@ -349,7 +351,7 @@ void Renderer::renderScroll(AbstractPoint ap)
 			break;
 		}
 		std::vector<MultiPoint> gg;
-		bool set = false;
+		bool set = false, doOnce = false, lastChar = false;
 		system("cls");
 		for (int row = 0; row < rows; row++) {
 			char dot = '.';
@@ -361,7 +363,8 @@ void Renderer::renderScroll(AbstractPoint ap)
 				bool lock = false;
 
 				if (borderRow || column == 0 || column == (columns - 1)) {
-					dot = (showBorders ? 42 : ' '); 
+					dot = (showBorders ? 42 : ' ');
+					lock = true;
 				} else if (!lock) {
 					dot = (showDots ? '.' : ' ');
 				}
@@ -381,29 +384,43 @@ void Renderer::renderScroll(AbstractPoint ap)
 					}
 				}
 
-				if (!lock && skipNow && !set && sel.startX == row && sel.startY == column) {
+				if (!lock && skipNow && !set && sel.startX == row && (sel.startY > 0 ? sel.startY == column : true)) {
 					// ABSTRACT POINT SYSTEM FTW.
 					// Draws new points based on the current position.
 					set = true;
-					dot = sel.character;
-					for (int i = 0; i < sel.size; i++) {
+					//dot = sel.character;
+					for (int i = charsToSkip; i < sel.size; i++) {
 						// MultiPoint ng(sel.x[i], sel.y[i], sel.character, 1, false);
 						int nx = row + sel.x[i], ny = column + sel.y[i];
 
-						// If out of bounds, do not render.
-						/*if (nx < 0 || nx > (rows - 1) || ny < 0 || ny > (columns - 1)) {
-							continue;
-						}*/
-						if (sel.y[i] < 0) {
-							int a = 0;
+						if (charsToSkip > 0 && sel.x[i] != 0) {
+							ny -= charsToSkip;
+							if (i == (sel.size - 1) && ny < 0) {
+								lastChar = true;
+							}
 						}
-						MultiPoint ng(nx, ny, sel.character, 1, false);
+
+						// If out of bounds, do not render.
+						if (nx < 0 || nx > (rows - 1) || ny < 0 || ny > (columns - 1)) {
+							continue;
+						}
+
+						// In order to fix a bug in this effect,
+						// I have to make row 0 print nothing :(
+						char character = sel.character;
+						if (sel.x[i] == 0) {
+							character = ' ';
+						}
+
+						MultiPoint ng(nx, ny, character, 1, false);
 						gg.push_back(ng);
 					}
 					sel.startY--;
 					if (sel.startY < 0) {
-						//killWhile = true;
-						sel.startY = (columns - 1);
+						charsToSkip++;
+						if (lastChar) {
+							killWhile = true;
+						}
 					}
 					aps[charleft - 1] = sel;
 				}
@@ -412,12 +429,65 @@ void Renderer::renderScroll(AbstractPoint ap)
 					for (std::vector<MultiPoint>::iterator ig = gg.begin(); ig != gg.end(); ++ig)
 					{
 						MultiPoint mp = *ig;
-						if (mp.y[0] < 0) {
-							int a = 0;
-						}
 						if (mp.x[0] == row && mp.y[0] == column)
 						{
 							dot = mp.character;
+						}
+					}
+				}
+
+				cout << dot;
+				if (column == (columns - 1)) {
+					cout << endl;
+				}
+			}
+		}
+	}
+}
+
+void Renderer::renderText(std::vector<string> text, int startX, int startY)
+{
+	std::vector<GPoint> mp;
+	bool canDoAgain = true;
+	system("cls");
+	while (true) {
+		system("cls");
+		for (int row = 0; row < rows; row++) {
+			char dot = '.';
+			bool borderRow = false;
+			if (row == 0 || row == (rows - 1)) {
+				borderRow = true;
+			}
+			for (int column = 0; column < columns; column++) {
+				bool lock = false;
+
+				if (borderRow || column == 0 || column == (columns - 1)) {
+					dot = (showBorders ? 42 : ' '); 
+					lock = true;
+				} else if (!lock) {
+					dot = (showDots ? '.' : ' ');
+				}
+
+				// Render text.
+				if (startX == row && startY == column) {
+					int line = 0;
+					for (std::vector<string>::iterator it = text.begin(); it != text.end(); ++it) {
+						string tline = *it;
+						int currCol = 0;
+						for (std::string::iterator ig = tline.begin(); ig != tline.end(); ++ig) {
+							GPoint g(startX + line, startY + currCol++, *ig);
+							mp.push_back(g);
+						}
+						line++;
+					}
+				}
+
+				if (canDoAgain) {
+					for (std::vector<GPoint>::iterator it = mp.begin(); it != mp.end(); ++it) {
+						GPoint gp = *it;
+						if (canDoAgain && gp.x == row && gp.y == column) {
+							dot = gp.character;
+							canDoAgain = false;
 						}
 					}
 				}
@@ -435,7 +505,11 @@ void Renderer::renderScreenDown(int objects, char character)
 {
 	std::vector<MultiPoint> newg;
 	int objscreated = 0;
+	bool killWhile = false;
 	while (true) {
+		if (killWhile) {
+			break;
+		}
 		system("cls");
 		// Create
 		if (objscreated < objects) {
@@ -483,10 +557,13 @@ void Renderer::renderScreenDown(int objects, char character)
 			MultiPoint upd = *it;
 			upd.row++;
 			if (upd.row == (rows - 1)) {
-				upd.row = -1;
+				upd.row = -100;
 				newg[i] = upd;
 			} else {
 				newg[i] = upd;
+			}
+			if (i == objscreated - 1 && upd.row < -10) {
+				killWhile = true;
 			}
 			i++;
 		}
@@ -498,11 +575,16 @@ void Renderer::renderScreenLeft(int objects, char character, bool right)
 {
 	std::vector<MultiPoint> newg;
 	int objscreated = 0;
+	bool killWhile = false;
 	while (true) {
+		if (killWhile)
+		{
+			break;
+		}
 		system("cls");
 		// Create
 		if (objscreated < objects) {
-			MultiPoint nobj(-1, (columns - 2), character, 1, false);
+			MultiPoint nobj(-1, (right ? 1 : (columns - 2)), character, 1, false);
 			newg.push_back(nobj);
 			objscreated++;
 		}
@@ -544,12 +626,15 @@ void Renderer::renderScreenLeft(int objects, char character, bool right)
 		for (std::vector<MultiPoint>::iterator it = newg.begin(); it != newg.end(); ++it)
 		{
 			MultiPoint upd = *it;
-			upd.y[0]--;
-			if (upd.y[0] == 1) {
-				upd.y[0] = (columns - 1);
+			(right ? upd.y[0]++ : upd.y[0]--);
+			if (upd.y[0] == (right ? (columns - 1) : 1)) {
+				upd.y[0] = -100;
 				newg[i] = upd;
 			} else {
 				newg[i] = upd;
+			}
+			if (i == objscreated - 1 && upd.y[0] < -10) {
+				killWhile = true;
 			}
 			i++;
 		}

@@ -5,3 +5,4 @@ C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\Poi
 C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.csproj.GenerateResource.Cache
 C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.exe
 C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.pdb
+C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.csprojResolveAssemblyReference.cache

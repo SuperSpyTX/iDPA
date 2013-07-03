@@ -21,6 +21,7 @@ public:
 	// Functions
 	void render(std::vector<MultiPoint> g);
 	void blankRender();
+	void renderText(std::vector<string> text, int startX, int startY);
 	void renderBounce(std::vector<GPoint> gp);
 	void renderScroll(AbstractPoint ap);
 	void renderScreenDown(int objects, char character);
