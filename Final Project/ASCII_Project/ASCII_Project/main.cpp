@@ -11,6 +11,22 @@ using namespace std;
 AbstractPoint createAwesomeEffect();
 AbstractPoint createIDPAPresents();
 void runTheShow(Renderer renderer);
+void showMenu();
+
+// menu functions
+void kappehSurprise(Renderer renderer);
+void sekritSurprise(Renderer renderer);
+void sekrit2(Renderer renderer);
+void bouncingLetters(Renderer renderer);
+void scrollEverywhere(Renderer renderer);
+void testing(Renderer renderer);
+Renderer options(Renderer renderer);
+
+void deBug()
+{
+	cin.clear();
+	fflush(stdin);
+}
 
 int main() 
 {
@@ -18,54 +34,802 @@ int main()
 	system("color b");
 	Renderer renderer(20, 42);
 	//renderer.showBorders = false;
+	int attemptsToGlitch = 0; // For game breakers :D
 	renderer.showDots = false;
 
-	std::vector<string> test;
-	test.push_back("The ASCII Project");
-	test.push_back("The most dangerous program ever.");
-	test.push_back("Created by yours truly.");
-	renderer.renderText(test, 4, 4);
-	//runTheShow(renderer);
-	// Render bouncy letters.
-	/*std::vector<GPoint> bouncymsgs;
+	//runTheShow(renderer); // On launch day ONLY!
 
-	string msg;
-	cout << "Please enter a message here: ";
-	cin >> msg;
-	int index = 0;
-	int x = 0;
-	for (string::iterator it = msg.begin() ; it < msg.end(); it++ , index++)
-	{
-	// *it
-	if (x == 4)
-	{
-	x = 0;
-	}
-	GPoint g(1, x, *it);
-	g.move = rand() % 6;
-	bouncymsgs.push_back(g);
-	x++;
-	}
-	renderer.renderBounce(bouncymsgs);*/
+	bool sappiku = false; // WHO CARES
+	do {
+		if (sappiku) {
+			break;
+		}
 
-	// Render screen down effect.
+		// Fix multi input exploit
+		deBug();
 
-	// Render screen left (bool right?) effect.
+		char sel = 0;
+		system("cls");
+		showMenu();
+		cout << "Please make a selection: ";
+		cin >> sel;
+		int asciiCheck = sel+0;
 
-	// Render scrolling letters
+		// NUMBERS SANITATION CHECK V9000!
+		if (asciiCheck < 48 && asciiCheck > 57) {
+			attemptsToGlitch++;
+			if (attemptsToGlitch > 2) {
+				attemptsToGlitch = 0;
+				// Do secret surprise #2
+				sekrit2(renderer);
+			} else {
+				cout << "Invalid Choice" << endl << endl;
+				system("pause");
+				continue;
+			}
+		}
 
-	//renderer.renderScroll(createAwesomeEffect());
+		// Ok now let's switchit.
+		switch (asciiCheck) {
+		case 48:
+			// #0
+			// secret surprise #1 (kappy easter egg #1)
+			// Fix multi input exploit
+			deBug();
+			sekritSurprise(renderer);
+			break;
+		case 49:
+			// #1
+			// run bouncy letters function.
+			system("cls");
+			// Fix multi input exploit
+			deBug();
+			bouncingLetters(renderer);
+			break;
+		case 50:
+			// #2
+			// run scroll left/right/down/up function.
+			system("cls");
+			// Fix multi input exploit
+			deBug();
+			scrollEverywhere(renderer);
+			break;
+		case 51:
+			// #3
+			// run tests
+			system("cls");
+			// Fix multi input exploit
+			deBug();
+			testing(renderer);
+			break;
+		case 52:
+			// #4
+			// run options function
+			system("cls");
+			// Fix multi input exploit
+			deBug();
+			renderer = options(renderer);
+			break;
+		case 53:
+			// #5
+			// run exit
+			sappiku = true;
+			break;
+		default:
+			attemptsToGlitch++;
+			if (attemptsToGlitch > 2) {
+				attemptsToGlitch = 0;
+				// Do secret surprise #2
+				sekrit2(renderer);
+			} else {
+				cout << "Invalid Choice" << endl << endl;
+				system("pause");
+				continue;
+			}
+		}
 
-	system("pause");
+	} while(true);
+
+	return 0; // exit code.
 }
 
 void runTheShow(Renderer renderer)
 {
-	renderer.renderScroll(createIDPAPresents());
+	// "ID Programming Academy Presents"
+	// Another renderer is required because it lags with borders on.
+	Renderer renderer2(20, 42);
+	renderer2.showBorders = false;
+	renderer2.showDots = false;
+	renderer2.renderScroll(createIDPAPresents());
+
 	renderer.renderScroll(createAwesomeEffect());
-	renderer.renderScreenDown(5, 'X');
+	renderer.renderScreenDown(5, 'X', true);
+	renderer.renderScreenDown(5, 'X', false);
 	renderer.renderScreenLeft(5, 'X', true);
 	renderer.renderScreenLeft(5, 'X', false);
+}
+
+void showMenu()
+{
+	Renderer renderer(20, 44);
+	renderer.showDots = false;
+	std::vector<string> test;
+	test.push_back("The (Console) ASCII Animation Project");
+	test.push_back("The most dangerous program ever.");
+	test.push_back("Created by yours truly, Joe K.");
+	test.push_back("");
+	test.push_back("");
+	test.push_back("");
+	test.push_back("Please make a selection:");
+	test.push_back("");
+	test.push_back("1. Bouncing Letters");
+	test.push_back("2. Scroll Left/Right/Down/Up");
+	test.push_back("3. Tests"); 
+	test.push_back("4. Options");
+	test.push_back("5. Exit");
+	renderer.renderText(test, 4, 4);
+}
+
+void bouncingLetters(Renderer renderer)
+{
+	// Render bouncy letters.
+	std::vector<GPoint> bouncymsgs;
+
+	string msg;
+	cout << "Please enter a message here: ";
+	cin >> msg;
+	if (msg == "kappy") {
+		kappehSurprise(renderer);
+		return;
+	}
+	int index = 0;
+	int x = 0;
+	for (string::iterator it = msg.begin() ; it < msg.end(); it++ , index++) // <---- what?
+	{
+		// *it
+		if (x == 4)
+		{
+			x = 0;
+		}
+		GPoint g(1, x, *it);
+		g.move = rand() % 6;
+		bouncymsgs.push_back(g);
+		x++;
+	}
+	renderer.renderBounce(bouncymsgs);
+}
+
+void scrollEverywhere(Renderer renderer)
+{
+	char dir;
+	cout << "Please enter a direction (1 = down, 2 = up, 3 = left, 4 = right): " << endl;
+	cin >> dir;
+	int asciiCheckDir = dir+0;
+	if (asciiCheckDir < 49 && asciiCheckDir > 52) {
+		return;
+	}
+
+	int objs;
+	cout << "Please enter an amount of rows to create (5): " << endl;
+	cin >> objs;
+	if (objs < 1 && objs > 20) {
+		return;
+	}
+
+	char character;
+	cout << "Please enter a character (#): " << endl;
+	cin >> character;
+
+	switch (asciiCheckDir) {
+	case 49:
+		// down
+		renderer.renderScreenDown(objs, character, false);
+		system("pause");
+		break;
+	case 50:
+		// up
+		renderer.renderScreenDown(objs, character, true);
+		system("pause");
+		break;
+	case 51:
+		// left
+		renderer.renderScreenLeft(objs, character, false);
+		system("pause");
+		break;
+	case 52:
+		// right
+		renderer.renderScreenLeft(objs, character, true);
+		system("pause");
+		break;
+	}
+}
+
+void testing(Renderer renderer)
+{
+	cout << "Now running tests." << endl;
+	system("pause");
+	system("cls");
+
+	for (int i = 0; i < 20; i++) {
+		system("cls");
+		renderer.blankRender();
+	}
+
+	system("cls");
+	renderer.render(renderer.createRandomAnimation());
+
+	system("pause");
+}
+
+Renderer options(Renderer renderer22)
+{
+	Renderer renderer2 = renderer22;
+	bool breake = false;
+	do {
+		if (breake) {
+			break;
+		}
+		// Fix multi input exploit
+		deBug();
+
+		Renderer renderer(20, 44);
+		renderer.showDots = false;
+		char sel = 0;
+		int rows = renderer2.rows, columns = renderer2.columns;
+		string toggleBorders = (renderer2.showBorders ? " off" : " on"), toggleDots = (renderer2.showDots ? " off" : " on");
+		std::vector<string> test;
+		test.push_back("The (Console) ASCII Animation Project");
+		test.push_back("The most dangerous program ever.");
+		test.push_back("Created by yours truly, Joe K.");
+		test.push_back("");
+		test.push_back("");
+		test.push_back("");
+		test.push_back("Options Menu:");
+		test.push_back("");
+		test.push_back("1. Set # of Rows and Columns.");
+		test.push_back("2. Turn" + toggleBorders + " borders");
+		test.push_back("3. Turn" + toggleDots + " dots");
+		test.push_back("4. Back");
+		renderer.renderText(test, 4, 4);
+
+		cout << "Please make a selection: ";
+		cin >> sel;
+		int asciiCheck = sel+0;
+
+		// NUMBERS SANITATION CHECK V9000!
+		if (asciiCheck < 48 && asciiCheck > 57) {
+			cout << "Invalid Choice" << endl << endl;
+			system("pause");
+			continue;
+		}
+
+		// Ok now let's switchit.
+		switch (asciiCheck) {
+		case 49:
+			// #1
+			system("cls");
+
+			// Fix multi input exploit
+			deBug();
+
+			int rows;
+			cout << "Please enter # of Rows: " << endl;
+			cin >> rows;
+			rows += 2; // OFFSET!
+			if (rows > 32) {
+				cout << "You've reached the maximum # of rows! :(" << endl;
+				system("pause");
+				continue;
+			}
+
+			renderer2.rows = rows;
+
+			int columns;
+			cout << "Please enter # of Columns: " << endl;
+			cin >> columns;
+			columns += 2; // OFFSET!
+			if (columns > 62) {
+				cout << "You've reached the maximum # of columns! :(" << endl;
+				system("pause");
+				continue;
+			}
+
+			renderer2.columns = columns;
+			break;
+		case 50:
+			// #2
+			// Fix multi input exploit
+			deBug();
+			renderer2.showBorders = !renderer2.showBorders;
+			break;
+		case 51:
+			// #3
+			// Fix multi input exploit
+			deBug();
+			renderer2.showDots = !renderer2.showDots;
+			break;
+		case 52:
+			// #4
+			// Fix multi input exploit
+			deBug();
+			breake = true;
+			break;
+		default:
+			cout << "Invalid Choice" << endl << endl;
+			system("pause");
+			break;
+		}
+	} while(true);
+
+	return renderer2;
+}
+
+
+// These come last, so they don't see them.
+
+void kappehSurprise(Renderer renderer)
+{
+	renderer.renderWat(true);
+}
+
+void sekrit2(Renderer renderer)
+{
+	renderer.renderWat(false);
+}
+
+void sekritSurprise(Renderer renderer)
+{
+	int nsx = 4, nsy = 40;
+	int size = 218;
+	int *x = new int[size];
+	int *y = new int[size];
+	x[0] = 0;
+	y[0] = 0;
+	x[1] = 0;
+	y[1] = 1;
+	x[2] = 0;
+	y[2] = 2;
+	x[3] = 0;
+	y[3] = 3;
+	x[4] = 0;
+	y[4] = 4;
+	x[5] = 0;
+	y[5] = 5;
+	x[6] = 0;
+	y[6] = 6;
+	x[7] = 0;
+	y[7] = 7;
+	x[8] = 0;
+	y[8] = 8;
+	x[9] = 0;
+	y[9] = 9;
+	x[10] = 0;
+	y[10] = 10;
+	x[11] = 0;
+	y[11] = 11;
+	x[12] = 0;
+	y[12] = 12;
+	x[13] = 0;
+	y[13] = 13;
+	x[14] = 0;
+	y[14] = 14;
+	x[15] = 0;
+	y[15] = 15;
+	x[16] = 0;
+	y[16] = 16;
+	x[17] = 0;
+	y[17] = 17;
+	x[18] = 0;
+	y[18] = 18;
+	x[19] = 0;
+	y[19] = 19;
+	x[20] = 0;
+	y[20] = 20;
+	x[21] = 0;
+	y[21] = 21;
+	x[22] = 0;
+	y[22] = 22;
+	x[23] = 0;
+	y[23] = 23;
+	x[24] = 0;
+	y[24] = 24;
+	x[25] = 0;
+	y[25] = 25;
+	x[26] = 0;
+	y[26] = 26;
+	x[27] = 0;
+	y[27] = 27;
+	x[28] = 0;
+	y[28] = 28;
+	x[29] = 0;
+	y[29] = 29;
+	x[30] = 0;
+	y[30] = 30;
+	x[31] = 0;
+	y[31] = 31;
+	x[32] = 0;
+	y[32] = 32;
+	x[33] = 0;
+	y[33] = 33;
+	x[34] = 0;
+	y[34] = 34;
+	x[35] = 0;
+	y[35] = 35;
+	x[36] = 0;
+	y[36] = 36;
+	x[37] = 0;
+	y[37] = 37;
+	x[38] = 0;
+	y[38] = 38;
+	x[39] = 0;
+	y[39] = 39;
+	x[40] = 0;
+	y[40] = 40;
+	x[41] = 0;
+	y[41] = 41;
+	x[42] = 0;
+	y[42] = 42;
+	x[43] = 0;
+	y[43] = 43;
+	x[44] = 0;
+	y[44] = 44;
+	x[45] = 0;
+	y[45] = 45;
+	x[46] = 0;
+	y[46] = 46;
+	x[47] = 0;
+	y[47] = 47;
+	x[48] = 0;
+	y[48] = 48;
+	x[49] = 0;
+	y[49] = 49;
+	x[50] = 0;
+	y[50] = 50;
+	x[51] = 0;
+	y[51] = 51;
+	x[52] = 0;
+	y[52] = 52;
+	x[53] = 0;
+	y[53] = 53;
+	x[54] = 0;
+	y[54] = 54;
+	x[55] = 0;
+	y[55] = 55;
+	x[56] = 0;
+	y[56] = 56;
+	x[57] = 0;
+	y[57] = 57;
+	x[58] = 0;
+	y[58] = 58;
+	x[59] = 0;
+	y[59] = 59;
+	x[60] = 0;
+	y[60] = 60;
+	x[61] = 0;
+	y[61] = 61;
+	x[62] = 0;
+	y[62] = 62;
+	x[63] = 0;
+	y[63] = 63;
+	x[64] = 1;
+	y[64] = 0;
+	x[65] = 1;
+	y[65] = 5;
+	x[66] = 1;
+	y[66] = 8;
+	x[67] = 1;
+	y[67] = 12;
+	x[68] = 1;
+	y[68] = 14;
+	x[69] = 1;
+	y[69] = 17;
+	x[70] = 1;
+	y[70] = 20;
+	x[71] = 1;
+	y[71] = 21;
+	x[72] = 1;
+	y[72] = 22;
+	x[73] = 1;
+	y[73] = 29;
+	x[74] = 1;
+	y[74] = 32;
+	x[75] = 1;
+	y[75] = 33;
+	x[76] = 1;
+	y[76] = 36;
+	x[77] = 1;
+	y[77] = 37;
+	x[78] = 1;
+	y[78] = 38;
+	x[79] = 1;
+	y[79] = 44;
+	x[80] = 1;
+	y[80] = 46;
+	x[81] = 1;
+	y[81] = 49;
+	x[82] = 1;
+	y[82] = 52;
+	x[83] = 1;
+	y[83] = 54;
+	x[84] = 2;
+	y[84] = 0;
+	x[85] = 2;
+	y[85] = 4;
+	x[86] = 2;
+	y[86] = 6;
+	x[87] = 2;
+	y[87] = 8;
+	x[88] = 2;
+	y[88] = 12;
+	x[89] = 2;
+	y[89] = 14;
+	x[90] = 2;
+	y[90] = 16;
+	x[91] = 2;
+	y[91] = 18;
+	x[92] = 2;
+	y[92] = 21;
+	x[93] = 2;
+	y[93] = 28;
+	x[94] = 2;
+	y[94] = 30;
+	x[95] = 2;
+	y[95] = 32;
+	x[96] = 2;
+	y[96] = 34;
+	x[97] = 2;
+	y[97] = 36;
+	x[98] = 2;
+	y[98] = 44;
+	x[99] = 2;
+	y[99] = 46;
+	x[100] = 2;
+	y[100] = 48;
+	x[101] = 2;
+	y[101] = 50;
+	x[102] = 2;
+	y[102] = 52;
+	x[103] = 2;
+	y[103] = 54;
+	x[104] = 3;
+	y[104] = 0;
+	x[105] = 3;
+	y[105] = 4;
+	x[106] = 3;
+	y[106] = 6;
+	x[107] = 3;
+	y[107] = 8;
+	x[108] = 3;
+	y[108] = 12;
+	x[109] = 3;
+	y[109] = 13;
+	x[110] = 3;
+	y[110] = 14;
+	x[111] = 3;
+	y[111] = 16;
+	x[112] = 3;
+	y[112] = 17;
+	x[113] = 3;
+	y[113] = 18;
+	x[114] = 3;
+	y[114] = 21;
+	x[115] = 3;
+	y[115] = 28;
+	x[116] = 3;
+	y[116] = 29;
+	x[117] = 3;
+	y[117] = 30;
+	x[118] = 3;
+	y[118] = 32;
+	x[119] = 3;
+	y[119] = 33;
+	x[120] = 3;
+	y[120] = 36;
+	x[121] = 3;
+	y[121] = 37;
+	x[122] = 3;
+	y[122] = 45;
+	x[123] = 3;
+	y[123] = 48;
+	x[124] = 3;
+	y[124] = 50;
+	x[125] = 3;
+	y[125] = 52;
+	x[126] = 3;
+	y[126] = 54;
+	x[127] = 4;
+	y[127] = 0;
+	x[128] = 4;
+	y[128] = 4;
+	x[129] = 4;
+	y[129] = 6;
+	x[130] = 4;
+	y[130] = 8;
+	x[131] = 4;
+	y[131] = 12;
+	x[132] = 4;
+	y[132] = 13;
+	x[133] = 4;
+	y[133] = 14;
+	x[134] = 4;
+	y[134] = 16;
+	x[135] = 4;
+	y[135] = 18;
+	x[136] = 4;
+	y[136] = 21;
+	x[137] = 4;
+	y[137] = 28;
+	x[138] = 4;
+	y[138] = 30;
+	x[139] = 4;
+	y[139] = 32;
+	x[140] = 4;
+	y[140] = 34;
+	x[141] = 4;
+	y[141] = 36;
+	x[142] = 4;
+	y[142] = 45;
+	x[143] = 4;
+	y[143] = 48;
+	x[144] = 4;
+	y[144] = 50;
+	x[145] = 4;
+	y[145] = 52;
+	x[146] = 4;
+	y[146] = 54;
+	x[147] = 5;
+	y[147] = 0;
+	x[148] = 5;
+	y[148] = 1;
+	x[149] = 5;
+	y[149] = 2;
+	x[150] = 5;
+	y[150] = 5;
+	x[151] = 5;
+	y[151] = 8;
+	x[152] = 5;
+	y[152] = 9;
+	x[153] = 5;
+	y[153] = 10;
+	x[154] = 5;
+	y[154] = 12;
+	x[155] = 5;
+	y[155] = 14;
+	x[156] = 5;
+	y[156] = 16;
+	x[157] = 5;
+	y[157] = 18;
+	x[158] = 5;
+	y[158] = 21;
+	x[159] = 5;
+	y[159] = 28;
+	x[160] = 5;
+	y[160] = 30;
+	x[161] = 5;
+	y[161] = 32;
+	x[162] = 5;
+	y[162] = 34;
+	x[163] = 5;
+	y[163] = 36;
+	x[164] = 5;
+	y[164] = 37;
+	x[165] = 5;
+	y[165] = 38;
+	x[166] = 5;
+	y[166] = 45;
+	x[167] = 5;
+	y[167] = 49;
+	x[168] = 5;
+	y[168] = 52;
+	x[169] = 5;
+	y[169] = 53;
+	x[170] = 5;
+	y[170] = 54;
+	x[171] = 7;
+	y[171] = 0;
+	x[172] = 7;
+	y[172] = 1;
+	x[173] = 7;
+	y[173] = 5;
+	x[174] = 7;
+	y[174] = 8;
+	x[175] = 7;
+	y[175] = 9;
+	x[176] = 7;
+	y[176] = 10;
+	x[177] = 7;
+	y[177] = 12;
+	x[178] = 7;
+	y[178] = 13;
+	x[179] = 7;
+	y[179] = 14;
+	x[180] = 7;
+	y[180] = 17;
+	x[181] = 7;
+	y[181] = 18;
+	x[182] = 8;
+	y[182] = 0;
+	x[183] = 8;
+	y[183] = 2;
+	x[184] = 8;
+	y[184] = 4;
+	x[185] = 8;
+	y[185] = 6;
+	x[186] = 8;
+	y[186] = 9;
+	x[187] = 8;
+	y[187] = 12;
+	x[188] = 8;
+	y[188] = 14;
+	x[189] = 8;
+	y[189] = 16;
+	x[190] = 9;
+	y[190] = 0;
+	x[191] = 9;
+	y[191] = 2;
+	x[192] = 9;
+	y[192] = 4;
+	x[193] = 9;
+	y[193] = 6;
+	x[194] = 9;
+	y[194] = 9;
+	x[195] = 9;
+	y[195] = 12;
+	x[196] = 9;
+	y[196] = 14;
+	x[197] = 9;
+	y[197] = 16;
+	x[198] = 9;
+	y[198] = 18;
+	x[199] = 10;
+	y[199] = 0;
+	x[200] = 10;
+	y[200] = 2;
+	x[201] = 10;
+	y[201] = 4;
+	x[202] = 10;
+	y[202] = 6;
+	x[203] = 10;
+	y[203] = 9;
+	x[204] = 10;
+	y[204] = 12;
+	x[205] = 10;
+	y[205] = 14;
+	x[206] = 10;
+	y[206] = 16;
+	x[207] = 10;
+	y[207] = 18;
+	x[208] = 11;
+	y[208] = 0;
+	x[209] = 11;
+	y[209] = 1;
+	x[210] = 11;
+	y[210] = 5;
+	x[211] = 11;
+	y[211] = 8;
+	x[212] = 11;
+	y[212] = 9;
+	x[213] = 11;
+	y[213] = 10;
+	x[214] = 11;
+	y[214] = 12;
+	x[215] = 11;
+	y[215] = 14;
+	x[216] = 11;
+	y[216] = 17;
+	x[217] = 11;
+	y[217] = 18;
+
+
+	AbstractPoint a(nsx,nsy,x,y,size,'#');
+	for (int i = 0; i < 2; i++) {
+		renderer.renderScroll(a);
+	}
+
+	while(true) {
+		renderer.renderScroll(a);
+		renderer.renderScreenDown(10, 'L', false);
+	}
 }
 
 AbstractPoint createIDPAPresents()

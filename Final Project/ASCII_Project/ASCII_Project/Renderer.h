@@ -24,7 +24,8 @@ public:
 	void renderText(std::vector<string> text, int startX, int startY);
 	void renderBounce(std::vector<GPoint> gp);
 	void renderScroll(AbstractPoint ap);
-	void renderScreenDown(int objects, char character);
+	void renderWat(bool kap);
+	void renderScreenDown(int objects, char character, bool up);
 	void renderScreenLeft(int objects, char character, bool right);
 	std::vector<MultiPoint> createAnimation(MultiPoint g);
 	std::vector<MultiPoint> createRandomAnimation();

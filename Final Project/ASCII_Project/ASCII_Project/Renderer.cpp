@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include <random>
+#include <time.h>
 
 // THIS IS A ABSTRACT BASE FOR ALL ITERATORS!
 /*void iteratorBase()
@@ -335,7 +336,6 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 	}
 }
 
-
 void Renderer::renderScroll(AbstractPoint ap)
 {
 	std::vector<AbstractPoint> aps(1, ap);
@@ -409,14 +409,14 @@ void Renderer::renderScroll(AbstractPoint ap)
 						// I have to make row 0 print nothing :(
 						char character = sel.character;
 						if (sel.x[i] == 0) {
-							character = ' ';
+							continue; // DEBUG: continue; OLD: character = ' ';
 						}
 
 						MultiPoint ng(nx, ny, character, 1, false);
 						gg.push_back(ng);
 					}
 					sel.startY--;
-					if (sel.startY < 0) {
+					if (sel.startY < 1) {
 						charsToSkip++;
 						if (lastChar) {
 							killWhile = true;
@@ -448,60 +448,53 @@ void Renderer::renderScroll(AbstractPoint ap)
 void Renderer::renderText(std::vector<string> text, int startX, int startY)
 {
 	std::vector<GPoint> mp;
-	bool canDoAgain = true;
 	system("cls");
-	while (true) {
-		system("cls");
-		for (int row = 0; row < rows; row++) {
-			char dot = '.';
-			bool borderRow = false;
-			if (row == 0 || row == (rows - 1)) {
-				borderRow = true;
+	for (int row = 0; row < rows; row++) {
+		char dot = '.';
+		bool borderRow = false;
+		if (row == 0 || row == (rows - 1)) {
+			borderRow = true;
+		}
+		for (int column = 0; column < columns; column++) {
+			bool lock = false;
+
+			if (borderRow || column == 0 || column == (columns - 1)) {
+				dot = (showBorders ? 42 : ' '); 
+				lock = true;
+			} else if (!lock) {
+				dot = (showDots ? '.' : ' ');
 			}
-			for (int column = 0; column < columns; column++) {
-				bool lock = false;
 
-				if (borderRow || column == 0 || column == (columns - 1)) {
-					dot = (showBorders ? 42 : ' '); 
-					lock = true;
-				} else if (!lock) {
-					dot = (showDots ? '.' : ' ');
-				}
-
-				// Render text.
-				if (startX == row && startY == column) {
-					int line = 0;
-					for (std::vector<string>::iterator it = text.begin(); it != text.end(); ++it) {
-						string tline = *it;
-						int currCol = 0;
-						for (std::string::iterator ig = tline.begin(); ig != tline.end(); ++ig) {
-							GPoint g(startX + line, startY + currCol++, *ig);
-							mp.push_back(g);
-						}
-						line++;
+			// Render text.
+			if (startX == row && startY == column) {
+				int line = 0;
+				for (std::vector<string>::iterator it = text.begin(); it != text.end(); ++it) {
+					string tline = *it;
+					int currCol = 0;
+					for (std::string::iterator ig = tline.begin(); ig != tline.end(); ++ig) {
+						GPoint g(startX + line, startY + currCol++, *ig);
+						mp.push_back(g);
 					}
+					line++;
 				}
+			}
 
-				if (canDoAgain) {
-					for (std::vector<GPoint>::iterator it = mp.begin(); it != mp.end(); ++it) {
-						GPoint gp = *it;
-						if (canDoAgain && gp.x == row && gp.y == column) {
-							dot = gp.character;
-							canDoAgain = false;
-						}
-					}
+			for (std::vector<GPoint>::iterator it = mp.begin(); it != mp.end(); ++it) {
+				GPoint gp = *it;
+				if (gp.x == row && gp.y == column) {
+					dot = gp.character;
 				}
+			}
 
-				cout << dot;
-				if (column == (columns - 1)) {
-					cout << endl;
-				}
+			cout << dot;
+			if (column == (columns - 1)) {
+				cout << endl;
 			}
 		}
 	}
 }
 
-void Renderer::renderScreenDown(int objects, char character) 
+void Renderer::renderScreenDown(int objects, char character, bool up) 
 {
 	std::vector<MultiPoint> newg;
 	int objscreated = 0;
@@ -513,7 +506,7 @@ void Renderer::renderScreenDown(int objects, char character)
 		system("cls");
 		// Create
 		if (objscreated < objects) {
-			MultiPoint nobj(1, character, 1, false);
+			MultiPoint nobj((up ? (rows - 1) : 1), character, 1, false);
 			newg.push_back(nobj);
 			objscreated++;
 		}
@@ -555,8 +548,8 @@ void Renderer::renderScreenDown(int objects, char character)
 		for (std::vector<MultiPoint>::iterator it = newg.begin(); it != newg.end(); ++it)
 		{
 			MultiPoint upd = *it;
-			upd.row++;
-			if (upd.row == (rows - 1)) {
+			(up ? upd.row-- : upd.row++);
+			if ((up ? upd.row < 1 : upd.row > (rows - 1))) {
 				upd.row = -100;
 				newg[i] = upd;
 			} else {
@@ -640,4 +633,36 @@ void Renderer::renderScreenLeft(int objects, char character, bool right)
 		}
 	}
 
+}
+
+void Renderer::renderWat(bool kap)
+{
+	srand(time(NULL));
+	system("cls");
+	for (int row = 0; row < rows; row++) {
+		char dot = '.';
+		bool borderRow = false;
+		if (row == 0 || row == (rows - 1)) {
+			borderRow = true;
+		}
+		for (int column = 0; column < columns; column++) {
+			bool lock = false;
+
+			if (borderRow || column == 0 || column == (columns - 1)) {
+				dot = (showBorders ? 42 : ' '); 
+				lock = true;
+			} else if (!lock) {
+				dot = (showDots ? '.' : ' ');
+			}
+
+			dot = rand() % 1000;
+
+			cout << dot;
+			(kap ? cout << "Kappy is the best!" : true);
+			if (column == (columns - 1)) {
+				cout << endl;
+			}
+		}
+	}
+	renderWat(kap);
 }
