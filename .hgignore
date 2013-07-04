@@ -2,6 +2,12 @@ syntax: glob
 
 *.exe
 *.obj
+*.cache
+*.pdb
+*.log
+*.lastbuildstate
+*.tlog
+*.rc
 
 syntax: regexp
 (.*)\/.metadata

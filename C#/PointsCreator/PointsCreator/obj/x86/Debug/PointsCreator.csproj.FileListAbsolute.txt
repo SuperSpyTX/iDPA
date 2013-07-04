@@ -1,8 +1,0 @@
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\bin\Debug\PointsCreator.exe
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\bin\Debug\PointsCreator.pdb
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.Form1.resources
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.Properties.Resources.resources
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.csproj.GenerateResource.Cache
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.exe
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.pdb
-C:\Users\Student\Desktop\Krause\C#\PointsCreator\PointsCreator\obj\x86\Debug\PointsCreator.csprojResolveAssemblyReference.cache
