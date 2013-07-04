@@ -1,9 +1,0 @@
-import com.superspytx.advanced.JVMHack;
-
-public class DefinitelyANoobToJava {
-	
-	public static void main(String[] args) {
-		JVMHack.hackJava();
-		
-	}
-}

@@ -244,7 +244,7 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 					if (gps.uqid == gp2.uqid) {
 						continue;
 					} else if (cx == gp2.x && cy == gp2.y) {
-						bool colidedWithObject = true;
+						colidedWithObject = true;
 
 						// Check what direction the current object should go.
 						dir = getOpposite(dir);
@@ -332,6 +332,16 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 					cout << endl;
 				}
 			}
+		}
+
+		GPoint w2;
+		for(std::vector<GPoint>::iterator it = updates.begin(); it != updates.end(); ++it) { // stackoverflow (HARDCODE SUCKS)
+			// Let's check broken characters.
+			GPoint wat = *it;
+			if (w2.character == wat.character && w2.uqid != wat.uqid) {
+				int a = 0;
+			}
+			w2 = wat;
 		}
 	}
 }
@@ -549,7 +559,7 @@ void Renderer::renderScreenDown(int objects, char character, bool up)
 		{
 			MultiPoint upd = *it;
 			(up ? upd.row-- : upd.row++);
-			if ((up ? upd.row < 1 : upd.row > (rows - 1))) {
+			if ((up ? upd.row < 0 : upd.row > (rows - 1))) {
 				upd.row = -100;
 				newg[i] = upd;
 			} else {
@@ -620,7 +630,7 @@ void Renderer::renderScreenLeft(int objects, char character, bool right)
 		{
 			MultiPoint upd = *it;
 			(right ? upd.y[0]++ : upd.y[0]--);
-			if (upd.y[0] == (right ? (columns - 1) : 1)) {
+			if ((right ? upd.y[0] == (columns) : upd.y[0] < 0)) {
 				upd.y[0] = -100;
 				newg[i] = upd;
 			} else {
@@ -638,7 +648,6 @@ void Renderer::renderScreenLeft(int objects, char character, bool right)
 void Renderer::renderWat(bool kap)
 {
 	srand(time(NULL));
-	system("cls");
 	for (int row = 0; row < rows; row++) {
 		char dot = '.';
 		bool borderRow = false;
@@ -656,6 +665,11 @@ void Renderer::renderWat(bool kap)
 			}
 
 			dot = rand() % 1000;
+
+			// Because Seff loves party pooping!
+			if (dot == 7) {
+				dot--;
+			}
 
 			cout << dot;
 			(kap ? cout << "Kappy is the best!" : true);

@@ -1,8 +1,0 @@
-public class RayLists {
-
-	public static ArrayList<String> garbageList = new ArrayList<String>();
-	
-	public static void main() {
-		
-	}
-}

@@ -32,7 +32,7 @@ int main()
 {
 	srand(time(NULL));
 	system("color b");
-	Renderer renderer(20, 42);
+	Renderer renderer(20, 42); // 20, 42
 	//renderer.showBorders = false;
 	int attemptsToGlitch = 0; // For game breakers :D
 	renderer.showDots = false;
@@ -56,7 +56,7 @@ int main()
 		int asciiCheck = sel+0;
 
 		// NUMBERS SANITATION CHECK V9000!
-		if (asciiCheck < 48 && asciiCheck > 57) {
+		if (asciiCheck < 48 || asciiCheck > 57) {
 			attemptsToGlitch++;
 			if (attemptsToGlitch > 2) {
 				attemptsToGlitch = 0;
@@ -183,16 +183,16 @@ void bouncingLetters(Renderer renderer)
 		return;
 	}
 	int index = 0;
-	int x = 0;
-	for (string::iterator it = msg.begin() ; it < msg.end(); it++ , index++) // <---- what?
+	int x = 1;
+	for (string::iterator it = msg.begin() ; it != msg.end(); it++ , index++) // <---- what?
 	{
 		// *it
 		if (x == 4)
 		{
-			x = 0;
+			x = 1;
 		}
 		GPoint g(1, x, *it);
-		g.move = rand() % 6;
+		g.move = rand() % 2;
 		bouncymsgs.push_back(g);
 		x++;
 	}
@@ -205,17 +205,27 @@ void scrollEverywhere(Renderer renderer)
 	cout << "Please enter a direction (1 = down, 2 = up, 3 = left, 4 = right): " << endl;
 	cin >> dir;
 	int asciiCheckDir = dir+0;
-	if (asciiCheckDir < 49 && asciiCheckDir > 52) {
+	if (asciiCheckDir < 49 || asciiCheckDir > 52) {
 		return;
 	}
-
-	int objs;
+	
+	// Fix multi input exploit
+	deBug();
+	char objsC;
 	cout << "Please enter an amount of rows to create (5): " << endl;
-	cin >> objs;
-	if (objs < 1 && objs > 20) {
+	cin >> objsC;
+	int asciiCheckObjs = objsC+0;
+	if (asciiCheckObjs < 49 || asciiCheckObjs > 57) {
+		return;
+	}
+	int objs = asciiCheckObjs - 48;
+	if (objs < 1 || objs > 20) {
 		return;
 	}
 
+
+	// Fix multi input exploit
+	deBug();
 	char character;
 	cout << "Please enter a character (#): " << endl;
 	cin >> character;
@@ -297,7 +307,7 @@ Renderer options(Renderer renderer22)
 		int asciiCheck = sel+0;
 
 		// NUMBERS SANITATION CHECK V9000!
-		if (asciiCheck < 48 && asciiCheck > 57) {
+		if (asciiCheck < 48 || asciiCheck > 57) {
 			cout << "Invalid Choice" << endl << endl;
 			system("pause");
 			continue;
@@ -320,6 +330,11 @@ Renderer options(Renderer renderer22)
 				cout << "You've reached the maximum # of rows! :(" << endl;
 				system("pause");
 				continue;
+			} else if (rows < 1) {
+				if (rows == 0) {
+					rows--;
+				}
+				rows = (rows * -1 + 2 > 32 ? 32 : rows * -1 + 2);
 			}
 
 			renderer2.rows = rows;
@@ -332,6 +347,11 @@ Renderer options(Renderer renderer22)
 				cout << "You've reached the maximum # of columns! :(" << endl;
 				system("pause");
 				continue;
+			} else if (columns < 1) {
+				if (columns == 0) {
+					columns--;
+				}
+				columns = columns * -1;
 			}
 
 			renderer2.columns = columns;

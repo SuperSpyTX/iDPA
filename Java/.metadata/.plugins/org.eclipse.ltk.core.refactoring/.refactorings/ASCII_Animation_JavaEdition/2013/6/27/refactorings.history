@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename package &apos;se.krau.asciiani&apos; to &apos;se.jkrau.asciiani&apos;&#x0D;&#x0A;- Original project: &apos;ASCII_Animation_JavaEdition&apos;&#x0D;&#x0A;- Original element: &apos;ASCII_Animation_JavaEdition/src/se.krau.asciiani&apos;&#x0D;&#x0A;- Renamed element: &apos;ASCII_Animation_JavaEdition/src/se.jkrau.asciiani&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;se.krau.asciiani&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;se.krau.asciiani" name="se.jkrau.asciiani" qualified="false" references="true" stamp="1372613892701" textual="false" version="1.0"/>
-</session>
