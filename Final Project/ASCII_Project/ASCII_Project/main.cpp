@@ -37,8 +37,6 @@ int main()
 	int attemptsToGlitch = 0; // For game breakers :D
 	renderer.showDots = false;
 
-	//runTheShow(renderer); // On launch day ONLY!
-
 	bool sappiku = false; // WHO CARES
 	do {
 		if (sappiku) {
@@ -114,6 +112,10 @@ int main()
 			// #5
 			// run exit
 			sappiku = true;
+			break;
+		case 54:
+			// #6
+			runTheShow(renderer);
 			break;
 		default:
 			attemptsToGlitch++;

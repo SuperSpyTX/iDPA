@@ -238,7 +238,7 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 				bool glitchout = false, colidedWithObject = false;
 				int cx = gps.x + nx, cy = gps.y + ny;
 				// check for any collisions FIRST.
-				int j = 0;
+				int j = 0, collisionChanges = 0;
 				for(std::vector<GPoint>::iterator itg = updates.begin(); itg != updates.end(); ++itg) {
 					GPoint gp2 = *itg;
 					if (gps.uqid == gp2.uqid) {
@@ -246,17 +246,33 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 					} else if (cx == gp2.x && cy == gp2.y) {
 						colidedWithObject = true;
 
-						// Check what direction the current object should go.
-						dir = getOpposite(dir);
-						gp2.move = getOpposite(gp2.move);
-						updates[j] = gp2;
+						if (collisionChanges > 1) {
+							// Let's collide elsewhere.
+							if (dir == 2) {
+								dir--;
+							} else if (dir == -2) {
+								dir++;
+							} else if (dir == -1) {
+								dir--;
+							} else if (dir == 1) {
+								dir++;
+							}
+						} else {
+							// Check what direction the current object should go.
+							dir = getOpposite(dir);
+							gp2.move = getOpposite(gp2.move);
+							if (updates[j].uqid == gp2.uqid) {
+								updates[j] = gp2;
+							}
+							collisionChanges++;
+						}
 					}
 					j++;
 				}
 				if (cx < 0 || cx > (rows - 1) || cy < 0 || cy > (columns - 1)) { // If the ball glitches out!
 					dir = 0;
-					gps.x = ((rows - 2) / 2);
-					gps.y = ((columns - 2) / 2);
+					gps.x = (rows / 2) - 2;
+					gps.y = (columns / 2) - 2;
 					glitchout = true;
 				} else if (cx == (rows - 1) && cy == 1) { // If the ball hits the bottom left corner.
 					dir = -1;
@@ -334,15 +350,15 @@ void Renderer::renderBounce(std::vector<GPoint> gp)
 			}
 		}
 
-		GPoint w2;
+		/*GPoint w2;
 		for(std::vector<GPoint>::iterator it = updates.begin(); it != updates.end(); ++it) { // stackoverflow (HARDCODE SUCKS)
 			// Let's check broken characters.
 			GPoint wat = *it;
-			if (w2.character == wat.character && w2.uqid != wat.uqid) {
+			if (w2.character == wat.character) {
 				int a = 0;
 			}
 			w2 = wat;
-		}
+		}*/
 	}
 }
 
